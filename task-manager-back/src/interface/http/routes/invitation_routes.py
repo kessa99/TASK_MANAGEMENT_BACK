@@ -14,8 +14,8 @@ from core.dto.invitation_dto import (
 from core.dto.auth_dto import TokenDTO
 from core.entities.user import User
 from interface.http.controllers.invitation_controller import InvitationController
-from interface.http.depenencies.db import get_db
-from interface.http.depenencies.auth import get_current_owner
+from interface.http.dependencies.db import get_db
+from interface.http.dependencies.auth import get_current_owner
 
 router = APIRouter(prefix="/invitations", tags=["Invitations"])
 

@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 from core.dto.assign_dto import AssignCreateDTO, AssignResponseDTO
 from core.entities.user import User, UserRole
 from interface.http.controllers.assign_controller import AssignController
-from interface.http.depenencies.db import get_db
-from interface.http.depenencies.auth import get_current_verified_user, get_current_owner
+from interface.http.dependencies.db import get_db
+from interface.http.dependencies.auth import get_current_verified_user, get_current_owner
 
 router = APIRouter(prefix="/assignments", tags=["Assignments"])
 

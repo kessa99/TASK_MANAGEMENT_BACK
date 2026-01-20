@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 from core.dto.user_dto import UserUpdateDTO, UserResponseDTO
 from core.entities.user import User
 from interface.http.controllers.user_controller import UserController
-from interface.http.depenencies.db import get_db
-from interface.http.depenencies.auth import get_current_owner
+from interface.http.dependencies.db import get_db
+from interface.http.dependencies.auth import get_current_owner
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

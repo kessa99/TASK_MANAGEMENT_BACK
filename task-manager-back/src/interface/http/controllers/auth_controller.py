@@ -7,9 +7,10 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from core.dto.auth_dto import LoginDTO, RegisterDTO, TokenDTO, RefreshTokenDTO
 from core.dto.user_dto import UserResponseDTO
-from core.entities.user import User
+from core.entities.user import User, UserRole
 from core.services.auth_service import AuthService
 from infrastructure.database.repository.user_repository import UserRepositoryImpl
+from infrastructure.external.email_service import EmailService
 from interface.http.mappers.user_mapper import map_user_entity_to_response
 
 
@@ -22,7 +23,7 @@ class AuthController:
 
     def register(self, dto: RegisterDTO) -> UserResponseDTO:
         """
-        Inscrire un nouvel utilisateur
+        Inscrire un nouvel utilisateur (toujours OWNER)
         Retourne None si l'email existe déjà
         """
         # Vérifier si l'email existe déjà
@@ -30,7 +31,7 @@ class AuthController:
         if existing_user is not None:
             return None
 
-        # Créer l'utilisateur avec mot de passe hashé
+        # Créer l'utilisateur avec mot de passe hashé (role = OWNER par défaut)
         now = datetime.now()
         user = User(
             id=uuid4(),
@@ -38,13 +39,17 @@ class AuthController:
             last_name=dto.last_name,
             email=dto.email,
             password=AuthService.hash_password(dto.password),
-            verified=False,
-            role=dto.role,
+            verified=True,
+            role=UserRole.OWNER,
             created_at=now,
             updated_at=now,
         )
 
         saved_user = self.repository.save(user)
+
+        # Envoyer l'email de bienvenue
+        EmailService.send_welcome_email(saved_user.email, saved_user.first_name)
+
         return map_user_entity_to_response(saved_user)
 
     def login(self, dto: LoginDTO) -> TokenDTO | None:

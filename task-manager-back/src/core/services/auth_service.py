@@ -30,15 +30,20 @@ class AuthService:
     @staticmethod
     def create_access_token(user: User) -> str:
         """Créer un token d'accès JWT"""
-        expire = datetime.utcnow() + timedelta(
+        now = datetime.utcnow()
+        expire = now + timedelta(
             minutes=settings.jwt_access_token_expire_minutes
         )
         payload = {
             "sub": str(user.id),
             "email": user.email,
             "role": user.role.value,
-            "exp": expire,
+            "verified": user.verified,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
             "type": "access",
+            "iat": now.timestamp(),
+            "exp": expire,
         }
         return jwt.encode(
             payload,
@@ -49,13 +54,15 @@ class AuthService:
     @staticmethod
     def create_refresh_token(user: User) -> str:
         """Créer un token de rafraîchissement JWT"""
-        expire = datetime.utcnow() + timedelta(
+        now = datetime.utcnow()
+        expire = now + timedelta(
             days=settings.jwt_refresh_token_expire_days
         )
         payload = {
             "sub": str(user.id),
-            "exp": expire,
             "type": "refresh",
+            "iat": now.timestamp(),
+            "exp": expire,
         }
         return jwt.encode(
             payload,

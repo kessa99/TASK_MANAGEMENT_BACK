@@ -15,12 +15,11 @@ class LoginDTO(BaseModel):
 
 
 class RegisterDTO(BaseModel):
-    """DTO pour l'inscription"""
+    """DTO pour l'inscription (création d'un owner)"""
     first_name: str = Field(..., min_length=1, max_length=100)
     last_name: str = Field(..., min_length=1, max_length=100)
     email: EmailStr
     password: str = Field(..., min_length=8)
-    role: UserRole = UserRole.MEMBER
 
 
 class TokenDTO(BaseModel):
@@ -89,3 +88,8 @@ class AuthenticatedUserDTO(BaseModel):
     verified: bool
     first_name: str | None = None
     last_name: str | None = None
+
+
+class LogoutResponseDTO(BaseModel):
+    """DTO pour la réponse de déconnexion"""
+    message: str = "Déconnexion réussie"

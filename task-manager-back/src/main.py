@@ -5,6 +5,7 @@ Fichier principal - Point d'entrée de l'application
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError, HTTPException
 from pydantic import ValidationError
+# /home/attito/Boulot/compo/TASK_MANAGEMENT_BACK/task-manager-back/src/infrastructure/database/init_db.py
 from infrastructure.database.init_db import init_db
 from interface.http.routes.user_routes import router as user_router
 from interface.http.routes.task_routes import router as task_router

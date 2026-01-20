@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from core.entities.user import User, UserRole
 from core.services.auth_service import AuthService
 from infrastructure.database.repository.user_repository import UserRepositoryImpl
-from interface.http.depenencies.db import get_db
+from interface.http.dependencies.db import get_db
 
 # Schéma de sécurité Bearer
 security = HTTPBearer()
