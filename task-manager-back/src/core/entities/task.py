@@ -1,12 +1,13 @@
 """
-Entités de la base de données
+Entité Task
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import List
 from uuid import UUID
+
 
 class TaskStatus(str, Enum):
     """
@@ -16,6 +17,7 @@ class TaskStatus(str, Enum):
     IN_PROGRESS = "IN_PROGRESS"
     DONE = "DONE"
 
+
 class TaskPriority(str, Enum):
     """
     Priorité de la tâche
@@ -24,10 +26,11 @@ class TaskPriority(str, Enum):
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
 
+
 @dataclass
 class Task:
     """
-    Entité de la base de données
+    Entité représentant une tâche
     """
     id: UUID
     title: str
@@ -36,6 +39,6 @@ class Task:
     priority: TaskPriority
     start_date: datetime | None
     due_date: datetime | None
-    assigned_to: List[UUID]
     created_at: datetime
     updated_at: datetime
+    assigned_to: List[UUID] = field(default_factory=list)

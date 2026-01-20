@@ -7,7 +7,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, String, DateTime, Enum
 from sqlalchemy.dialects.postgresql import UUID
-
+from sqlalchemy.sql import func
 from infrastructure.database.models.base import Base
 from core.entities.task import TaskStatus, TaskPriority
 
@@ -25,7 +25,6 @@ class TaskModel(Base):
     priority = Column(Enum(TaskPriority), nullable=False)
     start_date = Column(DateTime(timezone=True), nullable=True)
     due_date = Column(DateTime(timezone=True), nullable=True)
-    assigned_to = Column(UUID(as_uuid=True), nullable=False)
-    created_at = Column(DateTime(timezone=True), nullable=False, server_default=datetime.now())
-    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=datetime.now())
-    
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+

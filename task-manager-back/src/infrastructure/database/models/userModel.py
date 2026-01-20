@@ -10,6 +10,8 @@ from sqlalchemy.dialects.postgresql import UUID
 
 from infrastructure.database.models.base import Base
 from core.entities.user import UserRole
+from sqlalchemy.sql import func
+
 
 class UserModel(Base):
     """
@@ -25,5 +27,5 @@ class UserModel(Base):
     password = Column(String(255), nullable=False)
     verified = Column(Boolean, nullable=False)
     role = Column(Enum(UserRole), nullable=False)
-    created_at = Column(DateTime(timezone=True), nullable=False, server_default=datetime.now())
-    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=datetime.now())
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
